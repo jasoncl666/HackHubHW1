@@ -18,11 +18,16 @@ app.get('/', function (req, res) {
 app.get('/:file', function (req, res) {
 
   var filename = req.params.file;
-
-  fs.readFile(path+filename, function(err, data){
-    if (err) throw err;
-    console.log('content: ' + data.toString());
-  });
+  try {
+    if (fs.existsSync(path+filename)) {
+      fs.readFile(path+filename, function(err, data){
+        if (err) throw err;
+        console.log('content: ' + data.toString());
+      });
+    }
+  }catch(err) {
+    console.error(err)
+  }
 });
 
 
